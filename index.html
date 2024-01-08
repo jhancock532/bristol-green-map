@@ -19,8 +19,10 @@
  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
  crossorigin=""></script>
  <script>
-  var map = L.map('map').setView([51.505, -0.09], 7);
+  //51.44976,-2.59838
+  var map = L.map('map').setView([51.44976,-2.59838], 12);
   L.tileLayer('https://jhancock532.github.io/bristol-green-map/tiles/{z}/{x}/{y}.jpg', {
+    minZoom: 12,
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap | MapBox</a>'
 }).addTo(map);
