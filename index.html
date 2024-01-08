@@ -9,7 +9,8 @@
   crossorigin=""/>
 
      <style>
-       #map { height: 480px; }
+       #map { height: 100vh; }
+       body { margin: 0; padding: 0; }
       </style>
 </head>
 <body>
@@ -23,7 +24,8 @@
   var map = L.map('map').setView([51.44976,-2.59838], 12);
   L.tileLayer('https://jhancock532.github.io/bristol-green-map/tiles/{z}/{x}/{y}.jpg', {
     minZoom: 12,
-    maxZoom: 19,
+    maxNativeZoom: 15,
+    maxZoom: 17,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap | MapBox</a>'
 }).addTo(map);
 </script>
