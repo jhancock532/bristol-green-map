@@ -22,12 +22,36 @@
  <script>
   //51.44976,-2.59838
   var map = L.map('map').setView([51.44976,-2.59838], 12);
-  L.tileLayer('https://jhancock532.github.io/bristol-green-map/tiles/{z}/{x}/{y}.jpg', {
-    minZoom: 12,
+  L.tileLayer('https://jhancock532.github.io/bristol-green-map/downloaded_tiles/{z}/{x}/{y}.jpg', {
+    minZoom: 11,
     maxNativeZoom: 15,
     maxZoom: 17,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap | MapBox</a>'
 }).addTo(map);
+
+
+
+if (typeof(Number.prototype.toRad) === "undefined") {
+  Number.prototype.toRad = function() {
+    return this * Math.PI / 180;
+  }
+}
+
+
+function getTileURL(lat, lon, zoom) {
+    var xtile = parseInt(Math.floor( (lon + 180) / 360 * (1<<zoom) ));
+    var ytile = parseInt(Math.floor( (1 - Math.log(Math.tan(lat.toRad()) + 1 / Math.cos(lat.toRad())) / Math.PI) / 2 * (1<<zoom) ));
+    return "" + zoom + "/" + xtile + "/" + ytile;
+}
+
+
+map.on('click', function (e) {
+      url = getTileURL(e.latlng.lat, e.latlng.lng, map.getZoom())
+  console.log(url);
+      alert(url);
+});
+  
 </script>
 </body>
 </html>
+
