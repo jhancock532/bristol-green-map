@@ -11,8 +11,6 @@ def download_image(image_url, file_path):
         with open(file_path, 'wb') as f:
             response.raw.decode_content = True  # Handle compressed images
             shutil.copyfileobj(response.raw, f)
-
-        print("Image downloaded successfully!")
     else:
         print("Failed to download image. Status code:", response.status_code)
 
@@ -26,13 +24,13 @@ def create_folder(folder_path):
         print(f"Folder {folder_path} already exists.")
 
 
-minZoom = 15
-maxZoom = 16
+minZoom = 12
+maxZoom = 18
 
 minZoomMinX = 2015
-minZoomMaxX = 2021
-minZoomMinY = 1360
-minZoomMaxY = 1365
+minZoomMaxX = 2020
+minZoomMinY = 1361
+minZoomMaxY = 1364
 
 base_folder_name = "downloaded_tiles"
 
@@ -47,7 +45,10 @@ def total_tiles():
         total += (max_x_tile - min_x_tile) * (max_y_tile - min_y_tile)
     return total
 
-print("Total tiles to download:", total_tiles())
+num_total_tiles = total_tiles()
+print("Total tiles to download:", num_total_tiles)
+
+downloaded_tiles = 0
 
 for zoom_level in range(minZoom, maxZoom):
     zoom_folder = base_folder_name + "/" + str(zoom_level)  # Convert number to string for folder name
@@ -70,8 +71,11 @@ for zoom_level in range(minZoom, maxZoom):
             y_folder = x_folder + "/" + str(y_tile_number)
 
             file_path = y_folder + ".png"
-            # image_url in env
+            image_url = "https://api.mapbox.com/styles/v1/james-hancock/clqxvkser015301qrdk025jnw/tiles/256/" + str(zoom_level) + "/" + str(x_tile_number) + "/" + str(y_tile_number) + "@2x?access_token=pk.eyJ1IjoiamFtZXMtaGFuY29jayIsImEiOiJjbGs4ZW85MHYwajdsM2pvMWtjY2t5azRsIn0.hi1uA6mdexjWEydRNO6ewg"
 
-            download_image(image_url, file_path)
+            if downloaded_tiles >= 7348:
+                download_image(image_url, file_path)
+            downloaded_tiles += 1
+            print("Downloaded tile ", str(downloaded_tiles), " of ", str(num_total_tiles))
 
   
