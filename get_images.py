@@ -25,12 +25,12 @@ def create_folder(folder_path):
 
 
 minZoom = 12
-maxZoom = 18
+maxZoom = 17
 
-minZoomMinX = 2015
-minZoomMaxX = 2020
-minZoomMinY = 1361
-minZoomMaxY = 1364
+minZoomMinX = 2012
+minZoomMaxX = 2022
+minZoomMinY = 1359
+minZoomMaxY = 1366
 
 base_folder_name = "downloaded_tiles"
 
@@ -71,11 +71,8 @@ for zoom_level in range(minZoom, maxZoom):
             y_folder = x_folder + "/" + str(y_tile_number)
 
             file_path = y_folder + ".png"
-            
-            # image_url = access token reset, moved back to env
 
-            if downloaded_tiles >= 14529:
-                download_image(image_url, file_path)
+            download_image(image_url, file_path)
             downloaded_tiles += 1
             print("Downloaded tile ", str(downloaded_tiles), " of ", str(num_total_tiles))
 

@@ -21,7 +21,17 @@
  crossorigin=""></script>
  <script>
   //51.44976,-2.59838
-  var map = L.map('map').setView([51.44976,-2.59838], 12);
+
+  var southWest = L.latLng(51.390,-2.417),
+    northEast = L.latLng(51.530,-2.843),
+    bounds = L.latLngBounds(southWest, northEast);
+
+
+  var map = L.map('map', {maxBounds: bounds}).setView([51.44976,-2.59838], 12);
+
+
+
+
   L.tileLayer('https://jhancock532.github.io/bristol-green-map/downloaded_tiles/{z}/{x}/{y}.png', {
     minZoom: 12,
     maxNativeZoom: 17,
