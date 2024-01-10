@@ -71,9 +71,10 @@ for zoom_level in range(minZoom, maxZoom):
             y_folder = x_folder + "/" + str(y_tile_number)
 
             file_path = y_folder + ".png"
-            image_url = "https://api.mapbox.com/styles/v1/james-hancock/clqxvkser015301qrdk025jnw/tiles/256/" + str(zoom_level) + "/" + str(x_tile_number) + "/" + str(y_tile_number) + "@2x?access_token=pk.eyJ1IjoiamFtZXMtaGFuY29jayIsImEiOiJjbGs4ZW85MHYwajdsM2pvMWtjY2t5azRsIn0.hi1uA6mdexjWEydRNO6ewg"
+            
+            # image_url = access token reset, moved back to env
 
-            if downloaded_tiles >= 7348:
+            if downloaded_tiles >= 14529:
                 download_image(image_url, file_path)
             downloaded_tiles += 1
             print("Downloaded tile ", str(downloaded_tiles), " of ", str(num_total_tiles))
