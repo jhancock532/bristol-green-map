@@ -3,65 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leaflet tutorial</title>
+  <title>Green Bristol</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
   crossorigin=""/>
-
-     <style>
-       #map { height: 100vh; }
-       body { margin: 0; padding: 0; }
-      </style>
+  <style>
+    #map { height: 100vh; }
+    body { margin: 0; padding: 0; }
+  </style>
 </head>
 <body>
   <div id="map"></div>
-   <!-- Make sure you put this AFTER Leaflet's CSS -->
- <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
- integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
- crossorigin=""></script>
- <script>
-  //51.44976,-2.59838
 
-  var southWest = L.latLng(51.390,-2.417),
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin="">
+  </script>
+
+  <script>
+    const southWest = L.latLng(51.390,-2.417),
     northEast = L.latLng(51.530,-2.843),
     bounds = L.latLngBounds(southWest, northEast);
 
+    const map = L.map('map', {maxBounds: bounds}).setView([51.44976,-2.59838], 12);
 
-  var map = L.map('map', {maxBounds: bounds}).setView([51.44976,-2.59838], 12);
+    L.tileLayer('https://jhancock532.github.io/bristol-green-map/downloaded_tiles/{z}/{x}/{y}.png', {
+      minZoom: 12,
+      maxNativeZoom: 17,
+      maxZoom: 18,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap | MapBox</a>'
+    }).addTo(map);
 
+    if (typeof(Number.prototype.toRad) === "undefined") {
+      Number.prototype.toRad = function() {
+        return this * Math.PI / 180;
+      }
+    }
 
+    function getTileURL(lat, lon, zoom) {
+      const xtile = parseInt(Math.floor( (lon + 180) / 360 * (1<<zoom) ));
+      const ytile = parseInt(Math.floor( (1 - Math.log(Math.tan(lat.toRad()) + 1 / Math.cos(lat.toRad())) / Math.PI) / 2 * (1<<zoom) ));
+      return "" + zoom + "/" + xtile + "/" + ytile;
+    }
 
-
-  L.tileLayer('https://jhancock532.github.io/bristol-green-map/downloaded_tiles/{z}/{x}/{y}.png', {
-    minZoom: 12,
-    maxNativeZoom: 17,
-    maxZoom: 18,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap | MapBox</a>'
-}).addTo(map);
-
-
-
-if (typeof(Number.prototype.toRad) === "undefined") {
-  Number.prototype.toRad = function() {
-    return this * Math.PI / 180;
-  }
-}
-
-
-function getTileURL(lat, lon, zoom) {
-    var xtile = parseInt(Math.floor( (lon + 180) / 360 * (1<<zoom) ));
-    var ytile = parseInt(Math.floor( (1 - Math.log(Math.tan(lat.toRad()) + 1 / Math.cos(lat.toRad())) / Math.PI) / 2 * (1<<zoom) ));
-    return "" + zoom + "/" + xtile + "/" + ytile;
-}
-
-
-map.on('click', function (e) {
+    map.on('click', function (e) {
       url = getTileURL(e.latlng.lat, e.latlng.lng, map.getZoom())
-  console.log(url);
-      alert(url);
-});
-  
-</script>
+      console.log(url);
+    });
+  </script>
 </body>
 </html>
 
